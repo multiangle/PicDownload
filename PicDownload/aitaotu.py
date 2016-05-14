@@ -27,7 +27,7 @@ class aitaotuDownloader(BasicDownloader):
             try:
                 return self.__parse_2(page)
             except:
-                pass
+                return self.__parse_3(page)
 
     def __parse_1(self,page):
 
@@ -58,6 +58,19 @@ class aitaotuDownloader(BasicDownloader):
         return ret_data
 
     def __parse_2(self,page):
+
+        ret_data = {}
+        div_photo = page.find('div',attrs={'class':'photo'})
+
+        # get pic url (important)
+        div_bigpic = div_photo.find('div',attrs={'class':'big-pic'})
+        img_list = div_bigpic.find_all('img')
+        img_url_list = [x['src'] for x in img_list]
+        ret_data['img_url_list'] = img_url_list
+
+        return ret_data
+
+    def __parse_3(self,page): # 移动端
         ret_data = {}
 
         # img url
