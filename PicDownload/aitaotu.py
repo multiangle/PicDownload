@@ -2,7 +2,7 @@ __author__ = 'multiangle'
 
 
 import urllib.request as request
-from Basic import BasicDownloader
+from .Basic import BasicDownloader
 from bs4 import BeautifulSoup
 import re
 import json
@@ -13,6 +13,7 @@ class aitaotuDownloader(BasicDownloader):
         self.basic_url = 'http://www.aitaotu.com/'
         self.encoding = 'utf8'
 
+    #Override
     def parsePage(self,page_str):
         if isinstance(page_str,str):
             page = BeautifulSoup(page_str)
@@ -88,16 +89,7 @@ class aitaotuDownloader(BasicDownloader):
         ret_data['current_page'] = int(page_info[0])
         return ret_data
 
+    #Override
     def build_url(self,input_url,page_id):
         ret_str = input_url[:-5] + '_'+str(page_id) + '.html'
         return ret_str
-
-if __name__=='__main__':
-    url = 'http://www.aitaotu.com/guonei/21216.html'
-    bd = aitaotuDownloader()
-    bd.download(url)
-    # page = request.urlopen(url).read()
-    # page = str(page,encoding='utf8')
-    # print(page)
-    # x = bd.parsePage(page)
-    # print(x)

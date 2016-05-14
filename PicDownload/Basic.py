@@ -161,8 +161,6 @@ class Downloader(threading.Thread):
             else:
                 raise ValueError('Unknown task type')
 
-
-
     def getData(self,url,encoding='utf8'):
         try:
             res=self.getData_inner(url,encoding)
