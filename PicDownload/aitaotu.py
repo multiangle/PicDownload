@@ -12,7 +12,6 @@ class aitaotuDownloader(BasicDownloader):
         BasicDownloader.__init__(self)
         self.basic_url = 'http://www.aitaotu.com/'
         self.encoding = 'utf8'
-
     #Override
     def parsePage(self,page_str):
         if isinstance(page_str,str):
@@ -88,7 +87,6 @@ class aitaotuDownloader(BasicDownloader):
         ret_data['page_num'] = int(page_info[1])
         ret_data['current_page'] = int(page_info[0])
         return ret_data
-
     #Override
     def build_url(self,input_url,page_id):
         ret_str = input_url[:-5] + '_'+str(page_id) + '.html'

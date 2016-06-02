@@ -8,5 +8,5 @@ def download(url):
         ad.download(url)
 
 if __name__=='__main__':
-    url = 'http://www.aitaotu.com/guonei/13692.html'
+    url = 'http://www.aitaotu.com/guonei/2258.html'
     download(url)
