@@ -56,7 +56,7 @@ class BasicDownloader():
         pic_num_perpage = thread_info['img_url_list'].__len__()
 
         # 创建帖子文件夹
-        content_folder = config.STORE_FOLDER + '\\' + title
+        content_folder = config.STORE_FOLDER + os.sep + title
         if not os.path.exists(content_folder):
             os.makedirs(content_folder)
 
@@ -84,6 +84,7 @@ class BasicDownloader():
                 page = task['data']
                 parse_res = self.parsePage(page)
                 img = parse_res['img_url_list']
+                print(img)
                 for i in range(img.__len__()):
                     pic_url_list.append(dict(
                         type = 'pic',
@@ -101,7 +102,7 @@ class BasicDownloader():
                 pic = task['data']
                 url = task['url']
                 form = re.findall(re.compile(r'\.[\w]+'),url)[-1]
-                file_path = content_folder + '\\' + str(id) + form
+                file_path = content_folder + os.sep + str(id) + form
                 f = open(file_path,'wb')
                 f.write(pic)
                 f.close()
