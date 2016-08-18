@@ -336,15 +336,15 @@ class AsyDownloader(threading.Thread):
                     raise ValueError('Unknown task type')
 
     @asyncio.coroutine
-    def getPage(self,task,ret_list,encoding='utf8'):
+    async def getPage(self,task,ret_list,encoding='utf8'):
         headers = {'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 8_0 like Mac OS X) '
                                  'AppleWebKit/600.1.3 (KHTML, like Gecko) Version/8.0 Mobile'
                                  '/12A4345d Safari/600.1.4'}
         url = task['url']
-        with aiohttp.Timeout(5):
-            with aiohttp.ClientSession() as session:
-                with session.get(url,headers=headers) as resp:
-                    content = resp.read()
+        # with aiohttp.Timeout(5):
+        async with aiohttp.ClientSession() as session:
+            async with session.get(url,headers=headers) as resp:
+                    content = await resp.read()
                     if encoding:
                         content = content.decode(encoding)
                     ret_list.append(dict(
