@@ -15,7 +15,7 @@ class aitaotuDownloader(AsyBasicDownloader):
     #Override
     def parsePage(self,page_str):
         if isinstance(page_str,str):
-            page = BeautifulSoup(page_str)
+            page = BeautifulSoup(page_str,'lxml')
         elif isinstance(page_str,BeautifulSoup):
             page = page_str
         else:

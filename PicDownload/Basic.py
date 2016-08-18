@@ -8,6 +8,7 @@ import re
 import config
 import asyncio
 import aiohttp
+import pprint
 
 class BasicDownloader():
     def __init__(self):
@@ -249,9 +250,30 @@ class AsyBasicDownloader():
         page_ret_list = []
         loop = asyncio.get_event_loop()
         tasks = [self.getPage(task,page_ret_list) for task in page_list]
-        loop.run_until_complete(tasks)
+        loop.run_until_complete(asyncio.wait(tasks))
+
+        page_infos = [x['data'] for x in page_ret_list]
+        img_urls = [self.parsePage(page)['img_url_list'] for page in page_infos]
+        img_urls = sum(img_urls,[])
+        img_urls = sorted(img_urls)
+        img_ret = []
+        img_tasks = [dict(url=img_urls[i],id=i) for i in range(img_urls.__len__())]
+        img_tasks = [self.getPage(x,img_ret,encoding=None) for x in img_tasks]
+        loop.run_until_complete(asyncio.wait(img_tasks))
         loop.close()
-        print(page_ret_list)
+        img_ret = sorted(img_ret,key=lambda x:x['task']['url'])
+        count = 0
+        for img in img_ret:
+            count += 1
+            pic = img['data']
+            id = count
+            url = img['task']['url']
+            form = re.findall(re.compile(r'\.[\w]+'),url)[-1]
+            file_path = content_folder + os.sep + str(id) + form
+            f = open(file_path,'wb')
+            f.write(pic)
+            f.close()
+        print('done')
 
     @asyncio.coroutine
     async def getPage(self,task,ret_list,encoding='utf8'):
@@ -259,18 +281,16 @@ class AsyBasicDownloader():
                                  'AppleWebKit/600.1.3 (KHTML, like Gecko) Version/8.0 Mobile'
                                  '/12A4345d Safari/600.1.4'}
         url = task['url']
-        # with aiohttp.Timeout(5):
+
         async with aiohttp.ClientSession() as session:
                 async with session.get(url,headers=headers) as resp:
-                    content = resp.read()
+                    content = await resp.read()
                     if encoding:
                         content = content.decode(encoding)
                     ret_list.append(dict(
                         data = content,
                         task = task
                     ))
-
-
 
 class AsyDownloader(threading.Thread):
     def __init__(self,task_list,ret_list,batch_size=config.ASY_BATCH_SIZE,encoding='utf8'):
