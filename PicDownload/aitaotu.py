@@ -2,12 +2,12 @@ __author__ = 'multiangle'
 
 
 import urllib.request as request
-from .Basic import BasicDownloader
+from .Basic import BasicDownloader, AsyBasicDownloader
 from bs4 import BeautifulSoup
 import re
 import json
 
-class aitaotuDownloader(BasicDownloader):
+class aitaotuDownloader(AsyBasicDownloader):
     def __init__(self):
         BasicDownloader.__init__(self)
         self.basic_url = 'http://www.aitaotu.com/'
