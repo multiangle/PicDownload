@@ -14,8 +14,12 @@ if __name__=='__main__':
     ids=input("id : ")
     ids = re.sub(' ','',ids) # 去掉空格
     ids = ids.split('|')
-    ids = [int(x) for x in ids]
+    # ids = [int(x) for x in ids]
     # ids = [24036]
     for id in ids:
-        url = 'http://www.aitaotu.com/guonei/{id}.html'.format(id=id)
-        download(url)
+        if id.isdigit():
+            url = 'http://www.aitaotu.com/guonei/{id}.html'.format(id=id)
+            download(url)
+        else:
+            download(id)
+

@@ -260,7 +260,7 @@ class AsyBasicDownloader():
         img_tasks = [dict(url=img_urls[i],id=i) for i in range(img_urls.__len__())]
         img_tasks = [self.getPage(x,img_ret,encoding=None) for x in img_tasks]
         loop.run_until_complete(asyncio.wait(img_tasks))
-        loop.close()
+        # loop.close()
         img_ret = sorted(img_ret,key=lambda x:x['task']['url'])
         count = 0
         for img in img_ret:

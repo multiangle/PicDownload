@@ -79,6 +79,7 @@ class aitaotuDownloader(AsyBasicDownloader):
         img_url_list = [x['src'] for x in img_list]
         for i in range(img_url_list.__len__()):
             img_url_list[i] = img_url_list[i].replace('wap','')
+            img_url_list[i] = img_url_list[i].replace(':8090',':8089')
         ret_data['img_url_list'] = img_url_list
 
         div_articlepage = page.find('div',attrs={'class':'article-page'})
