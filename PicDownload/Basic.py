@@ -217,7 +217,7 @@ class AsyBasicDownloader():
         init_page = request.urlopen(page_url,timeout=config.TIMEOUT).read()
         init_page = str(init_page,encoding='utf8')
         thread_info = self.parsePage(init_page)
-
+        print(thread_info)
         if thread_info == None:
             raise EnvironmentError("The method of parsePage should be Overrided")
         info_keys = thread_info.keys()
@@ -251,6 +251,7 @@ class AsyBasicDownloader():
         loop = asyncio.get_event_loop()
         tasks = [self.getPage(task,page_ret_list) for task in page_list]
         loop.run_until_complete(asyncio.wait(tasks))
+        # print(page_ret_list)
 
         page_infos = [x['data'] for x in page_ret_list]
         img_urls = [self.parsePage(page)['img_url_list'] for page in page_infos]
@@ -281,7 +282,6 @@ class AsyBasicDownloader():
                                  'AppleWebKit/600.1.3 (KHTML, like Gecko) Version/8.0 Mobile'
                                  '/12A4345d Safari/600.1.4'}
         url = task['url']
-
         async with aiohttp.ClientSession() as session:
                 async with session.get(url,headers=headers) as resp:
                     content = await resp.read()
@@ -291,6 +291,7 @@ class AsyBasicDownloader():
                         data = content,
                         task = task
                     ))
+                    print(url+'\t'+'done')
 
 class AsyDownloader(threading.Thread):
     def __init__(self,task_list,ret_list,batch_size=config.ASY_BATCH_SIZE,encoding='utf8'):

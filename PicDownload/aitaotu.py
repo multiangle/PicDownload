@@ -10,7 +10,7 @@ import json
 class aitaotuDownloader(AsyBasicDownloader):
     def __init__(self):
         BasicDownloader.__init__(self)
-        self.basic_url = 'http://www.aitaotu.com/'
+        self.basic_url = 'https://www.aitaotu.com/'
         self.encoding = 'utf8'
     #Override
     def parsePage(self,page_str):
@@ -91,4 +91,5 @@ class aitaotuDownloader(AsyBasicDownloader):
     #Override
     def build_url(self,input_url,page_id):
         ret_str = input_url[:-5] + '_'+str(page_id) + '.html'
+        # print(ret_str)
         return ret_str

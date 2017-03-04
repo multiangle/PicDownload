@@ -18,7 +18,8 @@ if __name__=='__main__':
     # ids = [24036]
     for id in ids:
         if id.isdigit():
-            url = 'http://www.aitaotu.com/guonei/{id}.html'.format(id=id)
+            url = 'https://www.aitaotu.com/guonei/{id}.html'.format(id=id)
+            print(url)
             download(url)
         else:
             download(id)
